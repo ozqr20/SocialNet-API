@@ -10,12 +10,12 @@ const thoughtController = {
                 {$push: {Thought: _id}},
                 {new: true})
         })
-        .then(dbThoughtData => {
-            if(!dbThoughtData) {
+        .then(networkDB => {
+            if(!networkDB) {
                 res.status(404).json({message: 'No thougts with this id!'})
                     return;
             }
-            res.json(dbThoughtData)
+            res.json(networkDB)
         })
         .catch(err => res.json(err));
     },
@@ -24,7 +24,7 @@ const thoughtController = {
         Thought.find({})
         .populate({path: 'reactions', select: '__v'})
         .select('-__v')
-        .then(dbThoughtData => res.json(dbThoughtData))
+        .then(networkDB => res.json(networkDB))
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -35,12 +35,12 @@ const thoughtController = {
         Thought.findOne({ _id: params.id })
             .populate({ path: 'reactions', select: '-__v' })
             .select('-__v')
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No thought with this id!' });
                     return;
                 }
-                res.json(dbThoughtData)
+                res.json(networkDB)
             })
             .catch(err => {
                 console.log(err);
@@ -53,12 +53,12 @@ const thoughtController = {
         Thought.findOneAndUpdate({ _id: params.id }, body,{ new: true, runValidators: true })
         .populate({path: 'reactions', select: '-__v'})
         .select('-__v')
-        .then(dbThoughtData => {
-            if (!dbThoughtData) {
+        .then(networkDB => {
+            if (!networkDB) {
                 res.status(404).json({ message: 'No thought with this id!' })
                 return;
             }
-            res.json(dbThoughtData);
+            res.json(networkDB);
         })
         .catch(err => res.status(400).json(err));
     },
@@ -66,12 +66,12 @@ const thoughtController = {
     //delete thought 
     deleteThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.id })
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No thought with this id!' })
                     return;
                 }
-                res.json(dbThoughtData);
+                res.json(networkDB);
             })
             .catch(err => res.status(400).json(err));
     },
@@ -84,12 +84,12 @@ const thoughtController = {
             { new: true, runValidators: true })
             .populate({ path: 'reactions', select: '-__v' })
             .select('__v')
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No thought with this id!' })
                     return;
                 }
-                res.json(dbThoughtData);
+                res.json(networkDB);
             })
             .catch(err => res.status(400).json(err));
     },
@@ -100,12 +100,12 @@ const thoughtController = {
             { _id: params.thoughtId },
             { $pull: { reactions: {reactionId: params.reactionId}}},
             { new: true })
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No thought with this id!' })
                     return;
                 }
-                res.json(dbThoughtData);
+                res.json(networkDB);
             })
             .catch(err => res.status(400).json(err));
     }

@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema ({
-    userName: {
+    username: {
         type: String,
         required: true,
         trim: true,
@@ -31,6 +31,7 @@ const userSchema = new Schema ({
 {
     toJSON: {
         virtuals: true,
+        getters: true,
     },
     id: false,
 });

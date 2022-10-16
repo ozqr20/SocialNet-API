@@ -4,7 +4,7 @@ const userController = {
     // create user
     createUser({ body }, res) {
         User.create(body)
-        .then(dbUserData => res.json(dbUserData))
+        .then(networkDB => res.json(networkDB))
         .catch(err => res.status(400).json(err));
     },
 
@@ -14,7 +14,7 @@ const userController = {
         .populate({path: 'thoughts', select: '-__v'})
         .populate({path: 'friends', select: '-__v'})
         .select('-__v')
-        .then(dbUserData => res.json(dbUserData))
+        .then(networkDB => res.json(networkDB))
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -27,12 +27,12 @@ const userController = {
         .populate({path: 'thoughts', select: '-__v'})
         .populate({path: 'friends', select: '-__v'})
         .select('-__v')
-        .then(dbUserData => {
-            if(!dbUserData){
+        .then(networkDB => {
+            if(!networkDB){
                 res.status(404).json({message: 'No user with this id!'});
                 return;
             }
-            res.json(dbUserData)
+            res.json(networkDB)
         })
         .catch(err => {
             console.log(err);
@@ -44,12 +44,12 @@ const userController = {
     updateUser({ params,body }, res){
         User.findOneAndUpdate({_id: params.id}, body,
              {new: true, runValidators: true})
-             .then(dbUserData => {
-                if(!dbUserData) {
+             .then(networkDB => {
+                if(!networkDB) {
                      res.status(404).json({ message: 'No user with this id!' })
                      return;
                  }
-                 res.json(dbUserData);
+                 res.json(networkDB);
              })
              .catch(err => res.status(400).json(err));
     },
@@ -57,12 +57,12 @@ const userController = {
     //delete user 
     deleteUser({ params }, res){
         User.findOneAndDelete({_id: params.id})
-        .then(dbUserData => {
-            if(!dbUserData) {
+        .then(networkDB => {
+            if(!networkDB) {
                  res.status(404).json({ message: 'No user with this id!' })
                  return;
              }
-             res.json(dbUserData);
+             res.json(networkDB);
          })
          .catch(err => res.status(400).json(err));
     },
@@ -75,12 +75,12 @@ const userController = {
             {new: true})
             .populate({path: 'friends', select: '-__v'})
             .select('__v')
-            .then(dbUserData => {
-                if (!dbUserData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No user with this id!' })
                     return;
                 }
-                res.json(dbUserData);
+                res.json(networkDB);
             })
             .catch(err => res.status(400).json(err));
     },
@@ -93,12 +93,12 @@ const userController = {
             {new: true})
             .populate({path: 'friends', select: '-__v'})
             .select('__v')
-            .then(dbUserData => {
-                if (!dbUserData) {
+            .then(networkDB => {
+                if (!networkDB) {
                     res.status(404).json({ message: 'No user with this id!' })
                     return;
                 }
-                res.json(dbUserData);
+                res.json(networkDB);
             })
             .catch(err => res.status(400).json(err));
     }
