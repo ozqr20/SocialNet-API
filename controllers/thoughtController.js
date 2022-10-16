@@ -7,7 +7,7 @@ const thoughtController = {
         .then(({_id}) => {
             return User.findOneAndUpdate(
                 {id: params.userId},
-                {$push: {Thought: _id}},
+                {$push: {thoughts: _id}},
                 {new: true})
         })
         .then(networkDB => {
