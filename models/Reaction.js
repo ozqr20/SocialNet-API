@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types } = require('mongoose');
+const moment = require('moment');
 
 const reactionSchema = new Schema ({
     reactionId: {
@@ -24,7 +25,6 @@ const reactionSchema = new Schema ({
         toJSON: {
             getters: true,
         },
-        id: false,
     }
 );
 
